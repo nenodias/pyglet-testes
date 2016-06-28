@@ -1,6 +1,11 @@
-from pdb import set_trace
 import pyglet
 from pyglet.window import key, mouse
+
+#Frame counter
+fps_display = pyglet.clock.ClockDisplay()
+
+# Right way to load a resource
+#data_file = pyglet.resource.file('file.txt')
 
 window = pyglet.window.Window()
 
@@ -56,6 +61,7 @@ def update(dt):
 def on_draw():
     window.clear()
     batch.draw()
+    fps_display.draw()
   
 
 @window.event
