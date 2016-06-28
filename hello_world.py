@@ -34,6 +34,22 @@ list_images.append(pyglet.sprite.Sprite(sprite_image, sprite_image.width // 2, s
 
 explosion = pyglet.resource.media('explosion.wav', streaming=False)
 
+
+'''
+Para utilizar músicas com formato mp3/ogg é necessário instalar o AVIBin
+Link: http://avbin.github.io/AVbin/Download.html
+
+
+pyglet.lib.load_library('avbin')
+pyglet.have_avbin=True
+
+music = pyglet.resource.media('another_brick_the_wall.ogg')
+'''
+
+music = pyglet.resource.media('another_brick_the_wall.wav')
+music.play()
+
+
 position = dict(x=0, y=0)
 
 def boom(dt):
