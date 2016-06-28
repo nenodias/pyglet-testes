@@ -33,7 +33,7 @@ list_images.append(pyglet.sprite.Sprite(sprite_image, sprite_image.width // 2, s
 
 
 explosion = pyglet.resource.media('explosion.wav', streaming=False)
-
+print(dir(explosion))
 
 '''
 Para utilizar músicas com formato mp3/ogg é necessário instalar o AVIBin
@@ -45,9 +45,11 @@ pyglet.have_avbin=True
 
 music = pyglet.resource.media('another_brick_the_wall.ogg')
 '''
-
+pyglet.options['audio'] = ('openal', 'pulse', 'silent')# bugfix para Linux
 music = pyglet.resource.media('another_brick_the_wall.wav')
-music.play()
+player = pyglet.media.Player()
+player.queue(music)
+player.play()
 
 
 position = dict(x=0, y=0)
@@ -56,7 +58,7 @@ def boom(dt):
     explosion.play()
 
 def update(dt):
-    print(dt) # time elapsed since last time we were called
+    #print(dt) # time elapsed since last time we were called
     position['x'] += 1
     position['y'] += 1
 
@@ -94,6 +96,7 @@ pyglet.clock.schedule_interval(boom, 1.0)
 @window.event
 def on_close():
     if keyboard[key.UP]: # Só irá fechar a tela se o ESC que é a tecla padrão para sair for apertada junto com a tecla UP
+        player.pause()
         pass
     else:
         return pyglet.event.EVENT_HANDLED
