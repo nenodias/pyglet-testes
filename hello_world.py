@@ -1,3 +1,4 @@
+from pdb import set_trace
 import pyglet
 from pyglet.window import key, mouse
 
@@ -6,9 +7,25 @@ window = pyglet.window.Window()
 keyboard = key.KeyStateHandler()
 window.push_handlers(keyboard)
 
-image = pyglet.resource.image('exemplo.png')
-image.anchor_x = image.width // 2
-image.anchor_y = image.height // 2
+batch = pyglet.graphics.Batch()
+
+sprite_image = pyglet.resource.image('exemplo.png')
+sprite_image.anchor_x = sprite_image.width // 2
+sprite_image.anchor_y = sprite_image.height // 2
+
+# Criando camadas para agrupar imagens
+background = pyglet.graphics.OrderedGroup(0)
+foreground = pyglet.graphics.OrderedGroup(1)
+
+# Adicionando imagem de fundo
+sprite_fundo = pyglet.resource.image('fundo.png')
+fundo = pyglet.sprite.Sprite(sprite_fundo, 0, 0, batch=batch, group=background)
+
+list_images = []
+
+
+list_images.append(pyglet.sprite.Sprite(sprite_image, sprite_image.width // 2, sprite_image.height // 2, batch=batch, group=foreground))
+
 
 explosion = pyglet.resource.media('explosion.wav', streaming=False)
 
@@ -31,10 +48,14 @@ def update(dt):
     if keyboard[key.LEFT]:
         position['x'] -= 4
 
+    # Updating image position
+    for image in list_images:
+        image.x, image.y = position['x'], position['y']
+
 @window.event
 def on_draw():
     window.clear()
-    image.blit(position['x'], position['y'])
+    batch.draw()
   
 
 @window.event
